@@ -24,7 +24,7 @@ Node
 
 3. Visit localhost:9000 on your web browser
 
-## How to use
+## User Guide
 
 ### General
 
