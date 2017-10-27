@@ -8,7 +8,7 @@ Allows for user to change variables such as the Y-Axis value, teams displayed, l
 
 ### Examples
 
-[Example](/img/example-1.png)
+![Example](/img/example-1.png)
 
 ### Technologies Used
 
