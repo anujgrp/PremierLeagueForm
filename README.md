@@ -6,6 +6,10 @@ Web app that displays a line chart visualizing the form of English Premier Leagu
 
 Allows for user to change variables such as the Y-Axis value, teams displayed, league season, and even draw a vertical line to emphasize form at certain periods during the season.
 
+### Technologies Used
+
+HTML/JS, D3.js, jQuery, Express
+
 ## Install
 
 ### Requirements
