@@ -10,6 +10,10 @@ Allows for user to change variables such as the Y-Axis value, teams displayed, l
 
 ![Example](/img/example-1.png)
 
+![Example](/img/example-2.png)
+
+![Example](/img/example-3.png)
+
 ### Technologies Used
 
 HTML/JS, D3.js, jQuery, Express
