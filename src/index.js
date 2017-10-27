@@ -79,11 +79,11 @@ $(document).ready(function() {
             .text(yAxisText); 
 
         // watermark
-        chart.append("text")             
-            .attr("transform", "translate(" + (CHART_WIDTH-135) + " ," + (CHART_HEIGHT - 67) + ")")
-            .style("text-anchor", "right")
-            .style("font-size", ".75em")
-            .text("@space_behind");
+        // chart.append("text")             
+        //     .attr("transform", "translate(" + (CHART_WIDTH-135) + " ," + (CHART_HEIGHT - 67) + ")")
+        //     .style("text-anchor", "right")
+        //     .style("font-size", ".75em")
+        //     .text("@space_behind");
     }
     //change chart type based on select value
     function changeChart() {
