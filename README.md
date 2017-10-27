@@ -18,11 +18,15 @@ Node
 
 ### Directions
 
-1. `npm install`
+1. `git clone https://github.com/kyledijkstra/PremierLeagueForm.git`
 
-2. `node server.js`
+2. change into new PremierLeagueForm directory
 
-3. Visit localhost:9000 on your web browser
+3. `npm install`
+
+4. `node server`
+
+5. Visit localhost:9000 on your web browser
 
 ## User Guide
 
