@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="pl.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+</head>
+<body>
+    
+    <svg class="line-chart"></svg>
+    <form id="options-form">
+        <h3>Chart Type</h3>
+        Y Axis: <select id="chart-select">
+            <option value="pts">Avg Pts</option>
+            <option value="gd">Avg GD</option>
+            <option value="pos">League Position</option>
+        </select>
+        <br>
+        Rolling Avg: <select id="roll-select">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+        </select>
+        <br>
+        <button id="chart-btn" type="button">Change Chart</button>
+        <br> <br>
+        <h3>Add Team</h3>
+        Team: <select id="team-select"></select>
+        <br>
+        Season: <select id="season-select"></select>
+        <br>
+        Color: <select id="color-select"></select>
+        <br>
+        <button id="options-btn" type="button">Add</button>
+        <button id="delete-all-btn" type="button">Clear All</button>
+        <br> <br>
+        <h3>Vertical Line</h3>
+        Matchday: <select id="matchday-select"></select>
+        <br>
+        Color: <select id="color-md-select"></select>
+        <br>
+        <button id="matchday-line-btn" type="button">Draw Line</button>
+    </form>
+    <br><br>
+    
+    
+    
+    
+</body>
+</html>
+
+
