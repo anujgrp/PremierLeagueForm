@@ -9,10 +9,13 @@ Allows for user to change variables such as the Y-Axis value, teams displayed, l
 ### Examples
 
 ![Example](/img/example-1.png)
+Chelsea vs Arsenal (16/17) with a line showing the matchday of their first game against each other.
 
 ![Example](/img/example-2.png)
+Hovering over the circle representing that game and showing the score while highlighting the line.
 
 ![Example](/img/example-3.png)
+Hovering over Tottenham key in the upper right to highlight the line.
 
 ### Technologies Used
 
