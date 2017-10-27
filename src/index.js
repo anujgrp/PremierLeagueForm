@@ -79,11 +79,11 @@ $(document).ready(function() {
             .text(yAxisText); 
 
         // watermark
-        // chart.append("text")             
-        //     .attr("transform", "translate(" + (CHART_WIDTH-135) + " ," + (CHART_HEIGHT - 67) + ")")
-        //     .style("text-anchor", "right")
-        //     .style("font-size", ".75em")
-        //     .text("@space_behind");
+        chart.append("text")             
+            .attr("transform", "translate(" + (CHART_WIDTH-135) + " ," + (CHART_HEIGHT - 67) + ")")
+            .style("text-anchor", "right")
+            .style("font-size", ".75em")
+            .text("@space_behind");
     }
     //change chart type based on select value
     function changeChart() {
@@ -312,8 +312,7 @@ $(document).ready(function() {
             .attr("transform", "translate(" + (CHART_WIDTH-MARGIN+10) + " ," + (((+index+1)*15)+1) + ")")
             .style("text-anchor", "right")
             .style("font-size", ".9em")
-            .style("fill", "red")
-            .html(function(d) { return "&nbsp;"; })
+            .html(function(d) { return "X"; })
             .on("click", function(d) {
                     d3.select(this).remove();
                     deleteTeam(team);
