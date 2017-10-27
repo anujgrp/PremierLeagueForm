@@ -20,7 +20,7 @@ Node
 
 1. `git clone https://github.com/kyledijkstra/PremierLeagueForm.git`
 
-2. change into new PremierLeagueForm directory
+2. `cd PremierLeagueForm`
 
 3. `npm install`
 
