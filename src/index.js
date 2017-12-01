@@ -50,7 +50,7 @@ $(document).ready(function() {
         var chart = d3.select(".line-chart")
             .attr("height", CHART_HEIGHT)
             .attr("width", CHART_WIDTH)
-            .style("background", "#f4f4f4");
+            .style("background", "white");
         
         //header
         chart.append("text")
@@ -79,11 +79,11 @@ $(document).ready(function() {
             .text(yAxisText); 
 
         // watermark
-        // chart.append("text")             
-        //     .attr("transform", "translate(" + (CHART_WIDTH-135) + " ," + (CHART_HEIGHT - 67) + ")")
-        //     .style("text-anchor", "right")
-        //     .style("font-size", ".75em")
-        //     .text("@space_behind");
+        chart.append("text")             
+            .attr("transform", "translate(" + (CHART_WIDTH-135) + " ," + (CHART_HEIGHT - 67) + ")")
+            .style("text-anchor", "right")
+            .style("font-size", ".75em")
+            .text("@space_behind");
     }
     //change chart type based on select value
     function changeChart() {
@@ -120,12 +120,12 @@ $(document).ready(function() {
         } else if (chart == "gd") {
             d3.select(".line-chart").remove();
             Y_SCALE  = d3.scaleLinear()
-                .domain([-3, 3])
+                .domain([-4, 4])
                 .range([CHART_HEIGHT-MARGIN, MARGIN]);
             yAxisText = "Average Goal Difference From Last " + ROLL + " Games";
-            tickz = 7;
-            vertY1 = -3;
-            vertY2 = 3;
+            tickz = 9;
+            vertY1 = -4;
+            vertY2 = 4;
             y = yScaleGD;
             d3.select(document.body).insert("svg",":first-child").attr("class", "line-chart");
             drawChart();
@@ -157,6 +157,7 @@ $(document).ready(function() {
             .attr("stroke", color)
             .attr("stroke-width", 3)
             .attr("fill", "none")
+            .style("opacity", .75)
             .on("mouseover", function(d) { 
                     d3.select(this).moveToFront().style("stroke-width", "5");
                     d3.select(dotid).moveToFront().selectAll("circle").attr("r", 5); 
@@ -312,7 +313,7 @@ $(document).ready(function() {
             .attr("transform", "translate(" + (CHART_WIDTH-MARGIN+10) + " ," + (((+index+1)*15)+1) + ")")
             .style("text-anchor", "right")
             .style("font-size", ".9em")
-            .html(function(d) { return "X"; })
+            .html(function(d) { return "&nbsp;"; })
             .on("click", function(d) {
                     d3.select(this).remove();
                     deleteTeam(team);
