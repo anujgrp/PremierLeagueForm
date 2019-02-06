@@ -409,7 +409,6 @@ $(document).ready(function() {
      */
     //get data from api, draw line on chart, add team to key
     function teamSelected(team, competition, season, color) {
-        console.log(season);
         var req = "http://api.football-data.org/v2/teams/" + team.id + "/matches?season=" + season;
         $.ajax({
             headers: {"X-Auth-Token": "21c85df4425f47eebd9ba847693e9094"},
@@ -418,8 +417,6 @@ $(document).ready(function() {
             type: 'GET',
         })
             .done(function(data) {
-                console.log(req);
-                console.log(data);
                 //get matches by competition
                 var matches = getMatchesByCompetition(data.matches, competition.id);
                 //draw the line for the team based on data
