@@ -1,9 +1,11 @@
 var pl = {
-    id: {
-        "2015": "http://api.football-data.org/v1/competitions/398",
-        "2016": "http://api.football-data.org/v1/competitions/426",
-        "2017": "http://api.football-data.org/v1/competitions/445"
-    },
+    id: 2021,
+    // id: {
+    //     "2015": "http://api.football-data.org/v1/competitions/398",
+    //     "2016": "http://api.football-data.org/v1/competitions/426",
+    //     "2017": "http://api.football-data.org/v1/competitions/445",
+    //     "2018": "http://api.football-data.org/v1/competitions/445"
+    // },
     teams: {
         arsenal: {
             id: "57",
@@ -62,7 +64,7 @@ var pl = {
         },
         huddersfield: {
             id: "394",
-            name: "Huddersfield Town",
+            name: "Huddersfield Town AFC",
             abbr: "HDD"
         },
         chelsea: {
@@ -77,7 +79,7 @@ var pl = {
         },
         brighton: {
             id: "397",
-            name: "Brighton & Hove Albion",
+            name: "Brighton & Hove Albion FC",
             abbr: "BRH"
         },
         mancity: {
@@ -129,6 +131,21 @@ var pl = {
             id: "58",
             name: "Aston Villa FC",
             abbr: "AST"
+        },
+        cardiffcity: {
+            id: "715",
+            name: "Cardiff City FC",
+            abbr: "CAR"
+        },
+        wolves: {
+            id: "76",
+            name: "Wolverhampton Wanderers FC",
+            abbr: "WOL"
+        },
+        fulham: {
+            id: "63",
+            name: "Fulham FC",
+            abbr: "FUL"
         }
     }
 };

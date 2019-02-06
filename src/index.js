@@ -11,9 +11,9 @@ $(document).ready(function() {
         Y_SCALE  = d3.scaleLinear()
             .domain([0, 3])
             .range([CHART_HEIGHT-MARGIN, MARGIN]),
-        TEAMS = ["AFC Bournemouth", "Arsenal FC", "Aston Villa FC", "Brighton & Hove Albion", "Burnley FC", "Chelsea FC", "Crystal Palace FC", "Everton FC", "Huddersfield Town", "Hull City FC", "Leicester City FC", "Liverpool FC", "Manchester City FC", "Manchester United FC", "Middlesbrough FC", "Newcastle United FC", "Norwich City FC", "Southampton FC", "Stoke City FC", "Sunderland AFC", "Swansea City FC", "Tottenham Hotspur FC", "Watford FC", "West Bromwich Albion FC", "West Ham United FC"],
+        TEAMS = ["AFC Bournemouth", "Arsenal FC", "Aston Villa FC", "Brighton & Hove Albion", "Burnley FC", "Cardiff City FC", "Chelsea FC", "Crystal Palace FC", "Everton FC", "Fulham FC", "Huddersfield Town", "Hull City FC", "Leicester City FC", "Liverpool FC", "Manchester City FC", "Manchester United FC", "Middlesbrough FC", "Newcastle United FC", "Norwich City FC", "Southampton FC", "Stoke City FC", "Sunderland AFC", "Swansea City FC", "Tottenham Hotspur FC", "Watford FC", "West Bromwich Albion FC", "West Ham United FC", "Wolverhampton Wanderers FC"],
         COLORS = ["black", "blue", "darkblue", "gold", "gray", "green", "maroon", "orange", "purple", "red", "skyblue"],
-        SEASONS = ["2017/18", "2016/17", "2015/16"];
+        SEASONS = ["2018/19", "2017/18", "2016/17", "2015/16"];
     var gTeamKey = [],
         yAxisText = "Average Points Taken From Last " + ROLL + " Games";
         tickz = 4;
@@ -186,7 +186,7 @@ $(document).ready(function() {
                             .duration(200)
                             .style("opacity", .9)
                             .style("border", "1px " + color + " solid")
-                        tt.html("<table><tr><td>" + getAbbr(d.homeTeamName) + "</td><td>" + d.result.goalsHomeTeam + "</td></tr><tr><td>" + getAbbr(d.awayTeamName) + "</td><td>" + d.result.goalsAwayTeam + "</td></tr></table>")
+                        tt.html("<table><tr><td>" + getAbbr(d.homeTeam.name) + "</td><td>" + d.score.fullTime.homeTeam + "</td></tr><tr><td>" + getAbbr(d.awayTeam.name) + "</td><td>" + d.score.fullTime.awayTeam + "</td></tr></table>")
                             .style("left", X_SCALE(i+1)-15 + "px")
                             .style("top", y(name, data, i, ROLL)-35 + "px");
                     })
@@ -409,17 +409,21 @@ $(document).ready(function() {
      */
     //get data from api, draw line on chart, add team to key
     function teamSelected(team, competition, season, color) {
-        var req = "http://api.football-data.org/v1/teams/" + team.id + "/fixtures?season=" + season;
+        console.log(season);
+        var req = "http://api.football-data.org/v2/teams/" + team.id + "/matches?season=" + season;
         $.ajax({
             headers: {"X-Auth-Token": "21c85df4425f47eebd9ba847693e9094"},
             url: req,
             dataType: 'json',
             type: 'GET',
-        }).done(function(data) {
-                //get fixtures by competition
-                var fixtures = getFixturesByCompetition(data.fixtures, competition.id[season]);
+        })
+            .done(function(data) {
+                console.log(req);
+                console.log(data);
+                //get matches by competition
+                var matches = getMatchesByCompetition(data.matches, competition.id);
                 //draw the line for the team based on data
-                drawLine(team, season, fixtures, color);
+                drawLine(team, season, matches, color);
                 //draw the key
                 addKey(team.abbr, season, color);
             })
@@ -433,10 +437,10 @@ $(document).ready(function() {
     /**
      * DATA MANIPULATION
      */
-    //filter fixtures by their competition, and their completion status
-    function getFixturesByCompetition(fixtures, compid) {
-        return fixtures.filter(function(f) {
-            return f._links.competition.href === compid && f.status === "FINISHED";
+    //filter matches by their competition, and their completion status
+    function getMatchesByCompetition(matches, compid) {
+        return matches.filter(function(m) {
+            return m.competition.id === compid && m.status === "FINISHED";
         });
     }
 
@@ -448,44 +452,44 @@ $(document).ready(function() {
                 return team.abbr;
             }
         }
+        console.log(name);
         console.log("Team name not found");
     }
     
-    //takes team, list of fixtures, index, and number of fixtures to keep as rolling average
-    //returns y value for that index in the fixtures based on average points
-    function yScalePoints(team, fixtures, index, roll) {
-        //figure out oldest fixture from fixtures still included in the rolling average
-        var oldestFixture = (index+1)-roll;
-        if (oldestFixture < 0) {
-            oldestFixture = 0;
+    //takes team, list of matches, index, and number of matches to keep as rolling average
+    //returns y value for that index in the matches based on average points
+    function yScalePoints(team, matches, index, roll) {
+        //figure out oldest match from matches still included in the rolling average
+        var oldestMatch = (index+1)-roll;
+        if (oldestMatch < 0) {
+            oldestMatch = 0;
         }
-        //only take fixtures that start at oldest fixture up to and including the current index
-        var f = fixtures.slice(oldestFixture, index+1);
-        var avg = avgPoints(team, f);
+        //only take matches that start at oldest match up to and including the current index
+        var m = matches.slice(oldestMatch, index+1);
+        var avg = avgPoints(team, m);
         return Y_SCALE(avg);
     }
 
-    //takes team and list of fixtures
-    //returns average points from fixtures 
-    function avgPoints(team, fixtures) {
+    //takes team and list of matches
+    //returns average points from matches 
+    function avgPoints(team, matches) {
         var sum = 0;
-        for (f in fixtures) {
-            var fixture = fixtures[f];
-            sum += points(team, fixture);
+        for (m in matches) {
+            var match = matches[m];
+            sum += points(team, match);
         }
-        var avg = sum / fixtures.length;
+        var avg = sum / matches.length;
         return avg;
     }
     
-    //takes a fixture object and team name
+    //takes a match object and team name
     //returns 3 for win, 1 for draw, 0 for loss
-    function points(team, fixture) {
+    function points(team, match) {
         var points = 0;
-        var homeTeam = fixture.homeTeamName,
-            awayTeam = fixture.awayTeamName,
-            homeScore = fixture.result.goalsHomeTeam,
-            awayScore = fixture.result.goalsAwayTeam;
-
+        var homeTeam = match.homeTeam.name,
+            awayTeam = match.awayTeam.name,
+            homeScore = match.score.fullTime.homeTeam,
+            awayScore = match.score.fullTime.awayTeam;
         if (homeTeam == team) {
             if (homeScore > awayScore) {
                 points = 3;
@@ -503,49 +507,49 @@ $(document).ready(function() {
                 points = 0;
             }
         } else {
-            console.log("Error calculating points from fixture: team does not exist in this fixture");
+            console.log("Error calculating points from match: team does not exist in this match");
             return -1;
         }
         return points;
     }
-    //takes team, list of fixtures, index, and number of fixtures to keep as rolling average
-    //returns y value for that index in the fixtures based on average goal difference
-    function yScaleGD(team, fixtures, index, roll) {
-        //figure out oldest fixture from fixtures still included in the rolling average
-        var oldestFixture = (index+1)-roll;
-        if (oldestFixture < 0) {
-            oldestFixture = 0;
+    //takes team, list of matches, index, and number of matches to keep as rolling average
+    //returns y value for that index in the matches based on average goal difference
+    function yScaleGD(team, matches, index, roll) {
+        //figure out oldest match from matches still included in the rolling average
+        var oldestMatch = (index+1)-roll;
+        if (oldestMatch < 0) {
+            oldestMatch = 0;
         }
-        //only take fixtures that start at oldest fixture up to and including the current index
-        var f = fixtures.slice(oldestFixture, index+1);
-        var avg = avgGD(team, f);
+        //only take matches that start at oldest match up to and including the current index
+        var m = matches.slice(oldestMatch, index+1);
+        var avg = avgGD(team, m);
         return Y_SCALE(avg);
     }
 
-    //average goal difference of team in list of fixtures
-    function avgGD(team, fixtures) {
+    //average goal difference of team in list of matches
+    function avgGD(team, matches) {
         var sum = 0;
-        for (f in fixtures) {
-            var fixture = fixtures[f];
-            sum += goalDiff(team, fixture);
+        for (m in matches) {
+            var match = matches[m];
+            sum += goalDiff(team, match);
         }
-        var avg = sum / fixtures.length;
+        var avg = sum / matches.length;
         return avg;
     }
-    //get the goal difference of the team in the fixture
-    function goalDiff(team, fixture) {
+    //get the goal difference of the team in the match
+    function goalDiff(team, match) {
         var diff = 0;
-        var homeTeam = fixture.homeTeamName,
-        awayTeam = fixture.awayTeamName,
-        homeScore = fixture.result.goalsHomeTeam,
-        awayScore = fixture.result.goalsAwayTeam;
+        var homeTeam = match.homeTeam.name,
+        awayTeam = match.awayTeam.name,
+        homeScore = match.score.fullTime.homeTeam,
+        awayScore = match.score.fullTime.awayTeam;
 
         if (homeTeam == team) {
             diff = homeScore - awayScore;
         } else if (awayTeam == team) {
             diff = awayScore - homeScore;
         } else {
-            console.log("Error calculating points from fixture: team does not exist in this fixture");
+            console.log("Error calculating points from match: team does not exist in this match");
             return -1;
         }
         return diff;
